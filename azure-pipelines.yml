@@ -28,21 +28,14 @@ jobs:
     displayName: '[Windows] Install tools'
   - script: |
       @echo off
-      REM call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" $(architecture) -vcvars_ver=14.1
-      REM echo "Before calling varvarsall.bat"
-      REM set
       call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\vc\Auxiliary\build\vcvarsall.bat" $(architecture)
-      REM echo "After calling varvarsall.bat"
-      REM set
       del "C:\ProgramData\chocolatey\bin\c++.exe"
       del "C:\ProgramData\chocolatey\bin\g++.exe"
       del "C:\ProgramData\chocolatey\bin\gcc.exe"
       del "C:\Strawberry\c\bin\c++.exe"
       del "C:\Strawberry\c\bin\g++.exe"
       del "C:\Strawberry\c\bin\gcc.exe"
-      echo VCPKG_ROOT is %VCPKG_ROOT%
-      cmake -H. -B_build -GNinja -DCMAKE_CXX_STANDARD=$(CXX_VER) -DCMAKE_INSTALL_PREFIX=$(Build.ArtifactStagingDirectory) -DBUILD_SHARED_LIBS=ON -Dspdlog_DIR=%VCPKG_ROOT%\packages\spdlog_x64-windows\share\spdlog -Dfmt_DIR=%VCPKG_ROOT%\packages\fmt_x64-windows\share\fmt
-      REM cat _build\CMakeCache.txt
+      cmake -H. -B_build -GNinja -DCMAKE_CXX_STANDARD=$(CXX_VER) -DCMAKE_INSTALL_PREFIX=$(Build.ArtifactStagingDirectory) -DBUILD_SHARED_LIBS=ON
     condition: contains(variables['imageName'], 'win')
     displayName: '[Windows] Run cmake'
   - script: |
