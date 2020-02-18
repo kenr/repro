@@ -8,16 +8,6 @@ jobs:
 - job: Build
   strategy:
       matrix:
-        Linux:
-          imageName: 'ubuntu-latest'
-          architecture: 'x64'
-          cc_compiler_path: '/usr/bin/gcc-8'
-          cxx_compiler_path: '/usr/bin/g++-8'
-        macOS:
-          imageName: 'macOS-latest'
-          architecture: 'x64'
-          cc_compiler_path: '/usr/local/opt/llvm/bin/clang'
-          cxx_compiler_path: '/usr/local/opt/llvm/bin/clang++'
         win64:
           imageName: 'vs2017-win2016'
           architecture: 'x64'
@@ -31,62 +21,11 @@ jobs:
 
   pool:
     vmImage: $(imageName)
-  variables:
-    VCPKG_ROOT: '$(Agent.HomeDirectory)/vcpkg'
   steps:
-  - bash: |
-      sudo apt-get update
-      sudo apt-get install ninja-build libudev-dev gcc-8 g++-8 clang-9 clang-format-9 clang-tidy-9
-    condition: contains(variables['imageName'], 'ubuntu')
-    displayName: '[Linux] Install toolchain'
-  - bash: |
-      # Note that installing gcc@6 will not change `gcc`/`g++` on
-      # PATH, and those will still be Apple Clang.
-      brew install ninja llvm@9 gcc@9
-      ln -s "$(brew --prefix llvm)/bin/clang-format" "/usr/local/bin/clang-format"
-      ln -s "$(brew --prefix llvm)/bin/clang-tidy" "/usr/local/bin/clang-tidy"
-      sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
-    condition: contains(variables['imageName'], 'mac')
-    displayName: '[macOS] Install toolchain'
-  - bash: |
-      git clone $(VCPKG_REPOSITORY) $VCPKG_ROOT
-      $VCPKG_ROOT/bootstrap-vcpkg.sh
-      $VCPKG_ROOT/vcpkg install spdlog
-    condition: contains(variables['imageName'], 'ubuntu')
-    displayName: '[Linux] Install lib dependencies'
-  - bash: |
-      git clone $(VCPKG_REPOSITORY) $VCPKG_ROOT
-      CC=gcc-9 CXX=g++-9 $VCPKG_ROOT/bootstrap-vcpkg.sh
-      $VCPKG_ROOT/vcpkg install spdlog
-    condition: contains(variables['imageName'], 'mac')
-    displayName: '[macOS] Install lib dependencies'
   - script: |
       choco install ninja
-      choco install llvm
     condition: contains(variables['imageName'], 'win')
     displayName: '[Windows] Install tools'
-  - script: |
-      @echo off
-      echo Agent.HomeDirectory is $(Agent.HomeDirectory)
-      echo VCPKG_ROOT is %VCPKG_ROOT%
-      git clone $(VCPKG_REPOSITORY) %VCPKG_ROOT%
-      cd /d %VCPKG_ROOT%
-      bootstrap-vcpkg.bat
-      cd /d $(Build.SourcesDirectory)
-    condition: contains(variables['imageName'], 'win')
-    displayName: '[Windows] Install vcpkg'
-  - script: |
-      %VCPKG_ROOT%\vcpkg install spdlog:$(vcpkg_triplet)
-    condition: contains(variables['imageName'], 'win')
-    displayName: '[Windows] Install lib dependencies'
-  - bash: |
-      set -o errexit -o pipefail
-      export CC=$(cc_compiler_path)
-      export CXX=$(cxx_compiler_path)
-      echo "VCPKG_ROOT is $VCPKG_ROOT"
-      cmake -H. -B_build -G Ninja -DCMAKE_CXX_STANDARD=$(CXX_VER) -DCMAKE_INSTALL_PREFIX=$(Build.ArtifactStagingDirectory) -DBUILD_SHARED_LIBS=ON
-    condition: not(contains(variables['imageName'], 'win'))
-    displayName: '[Linux/macOS] Run cmake'
   - script: |
       @echo off
       REM call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" $(architecture) -vcvars_ver=14.1
