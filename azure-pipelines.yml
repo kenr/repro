@@ -67,7 +67,8 @@ jobs:
     displayName: '[Windows] Install tools'
   - script: |
       @echo off
-      echo "VCPKG_ROOT is %VCPKG_ROOT%"
+      echo Agent.HomeDirectory is $(Agent.HomeDirectory)
+      echo VCPKG_ROOT is %VCPKG_ROOT%
       git clone $(VCPKG_REPOSITORY) %VCPKG_ROOT%
       cd /d %VCPKG_ROOT%
       bootstrap-vcpkg.bat
@@ -82,17 +83,17 @@ jobs:
       set -o errexit -o pipefail
       export CC=$(cc_compiler_path)
       export CXX=$(cxx_compiler_path)
-      echo "VCPKG_ROOT is %VCPKG_ROOT%"
+      echo "VCPKG_ROOT is $VCPKG_ROOT"
       cmake -H. -B_build -G Ninja -DCMAKE_CXX_STANDARD=$(CXX_VER) -DCMAKE_INSTALL_PREFIX=$(Build.ArtifactStagingDirectory) -DBUILD_SHARED_LIBS=ON
     condition: not(contains(variables['imageName'], 'win'))
     displayName: '[Linux/macOS] Run cmake'
   - script: |
       @echo off
       REM call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" $(architecture) -vcvars_ver=14.1
-      echo "Before calling varvarsall.bat"
-      set
+      REM echo "Before calling varvarsall.bat"
+      REM set
       call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\vc\Auxiliary\build\vcvarsall.bat" $(architecture)
-      echo "After calling varvarsall.bat"
+      REM echo "After calling varvarsall.bat"
       set
       del "C:\ProgramData\chocolatey\bin\c++.exe"
       del "C:\ProgramData\chocolatey\bin\g++.exe"
