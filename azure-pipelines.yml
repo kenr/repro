@@ -53,13 +53,13 @@ jobs:
       $VCPKG_ROOT/bootstrap-vcpkg.sh
       $VCPKG_ROOT/vcpkg install spdlog catch2
     condition: contains(variables['imageName'], 'ubuntu')
-    displayName: '[Linux] Install nrf-device-lib dependencies'
+    displayName: '[Linux] Install lib dependencies'
   - bash: |
       git clone $(VCPKG_REPOSITORY) $VCPKG_ROOT
       CC=gcc-9 CXX=g++-9 $VCPKG_ROOT/bootstrap-vcpkg.sh
       $VCPKG_ROOT/vcpkg install spdlog catch2
     condition: contains(variables['imageName'], 'mac')
-    displayName: '[macOS] Install nrf-device-lib dependencies'
+    displayName: '[macOS] Install lib dependencies'
   - script: |
       choco install ninja
       choco install llvm
@@ -77,11 +77,12 @@ jobs:
   - script: |
       %VCPKG_ROOT%\vcpkg install spdlog:$(vcpkg_triplet) catch2:$(vcpkg_triplet)
     condition: contains(variables['imageName'], 'win')
-    displayName: '[Windows] Install nrf-device-lib dependencies'
+    displayName: '[Windows] Install lib dependencies'
   - bash: |
       set -o errexit -o pipefail
       export CC=$(cc_compiler_path)
       export CXX=$(cxx_compiler_path)
+      echo "VCPKG_ROOT is %VCPKG_ROOT%"
       cmake -H. -B_build -G Ninja -DCMAKE_CXX_STANDARD=$(CXX_VER) -DCMAKE_INSTALL_PREFIX=$(Build.ArtifactStagingDirectory) -DBUILD_SHARED_LIBS=ON
     condition: not(contains(variables['imageName'], 'win'))
     displayName: '[Linux/macOS] Run cmake'
@@ -99,6 +100,7 @@ jobs:
       del "C:\Strawberry\c\bin\c++.exe"
       del "C:\Strawberry\c\bin\g++.exe"
       del "C:\Strawberry\c\bin\gcc.exe"
+      echo VCPKG_ROOT is %VCPKG_ROOT%
       cmake -H. -B_build -GNinja -DCMAKE_CXX_STANDARD=$(CXX_VER) -DCMAKE_INSTALL_PREFIX=$(Build.ArtifactStagingDirectory) -DBUILD_SHARED_LIBS=ON -Dspdlog_DIR=C:\vc\packages\spdlog_x64-windows\share\spdlog -Dfmt_DIR=C:\vc\packages\fmt_x64-windows\share\fmt -DCatch2_DIR=C:\vc\packages\catch2_x64-windows\share\Catch2
       cat _build\CMakeCache.txt
     condition: contains(variables['imageName'], 'win')

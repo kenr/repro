@@ -47,7 +47,6 @@ target_compile_definitions(${TEST_LIB} PRIVATE -DSPDLOG_HEADER_ONLY)
 target_link_libraries(${TEST_LIB}
     PRIVATE
         spdlog::spdlog
-        ${${TEST_LIB}_PLATFORM_DEP_LIBS}
 )
 
 install(TARGETS ${TEST_LIB}
