@@ -101,7 +101,7 @@ jobs:
       del "C:\Strawberry\c\bin\g++.exe"
       del "C:\Strawberry\c\bin\gcc.exe"
       echo VCPKG_ROOT is %VCPKG_ROOT%
-      cmake -H. -B_build -GNinja -DCMAKE_CXX_STANDARD=$(CXX_VER) -DCMAKE_INSTALL_PREFIX=$(Build.ArtifactStagingDirectory) -DBUILD_SHARED_LIBS=ON -Dspdlog_DIR=C:\vc\packages\spdlog_x64-windows\share\spdlog -Dfmt_DIR=C:\vc\packages\fmt_x64-windows\share\fmt
+      cmake -H. -B_build -GNinja -DCMAKE_CXX_STANDARD=$(CXX_VER) -DCMAKE_INSTALL_PREFIX=$(Build.ArtifactStagingDirectory) -DBUILD_SHARED_LIBS=ON -Dspdlog_DIR=%VCPKG_ROOT%\packages\spdlog_x64-windows\share\spdlog -Dfmt_DIR=%VCPKG_ROOT%\packages\fmt_x64-windows\share\fmt
       cat _build\CMakeCache.txt
     condition: contains(variables['imageName'], 'win')
     displayName: '[Windows] Run cmake'
