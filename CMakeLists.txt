@@ -26,8 +26,6 @@ target_include_directories(${TEST_LIB} PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-target_compile_definitions(${TEST_LIB})
-
 install(TARGETS ${TEST_LIB}
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION bin
