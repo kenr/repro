@@ -2,7 +2,6 @@ variables:
   system.debug: true
   CXX_VER: 17
   CONFIGURATION: 'Debug'
-  VCPKG_REPOSITORY: 'https://github.com/Microsoft/vcpkg.git'
 
 jobs:
 - job: Build
@@ -24,7 +23,6 @@ jobs:
   steps:
   - script: |
       choco install ninja
-    condition: contains(variables['imageName'], 'win')
     displayName: '[Windows] Install tools'
   - script: |
       @echo off
@@ -36,7 +34,6 @@ jobs:
       del "C:\Strawberry\c\bin\g++.exe"
       del "C:\Strawberry\c\bin\gcc.exe"
       cmake -H. -B_build -GNinja -DCMAKE_CXX_STANDARD=$(CXX_VER) -DCMAKE_INSTALL_PREFIX=$(Build.ArtifactStagingDirectory) -DBUILD_SHARED_LIBS=ON
-    condition: contains(variables['imageName'], 'win')
     displayName: '[Windows] Run cmake'
   - script: |
       cmake --build _build --config $(CONFIGURATION) --target install
