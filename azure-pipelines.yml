@@ -47,6 +47,10 @@ jobs:
       del "C:\Strawberry\c\bin\gcc.exe"
       cmake -H. -B_build -GNinja -DCMAKE_INSTALL_PREFIX=$(Build.ArtifactStagingDirectory) -DBUILD_SHARED_LIBS=ON
     displayName: '[Windows] Run cmake'
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: '_build'
+      artifactName: 'drop'
   - script: |
       @echo off
       call "$(vcvars_path)" $(architecture)
