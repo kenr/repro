@@ -1,41 +1,17 @@
-variables:
-  system.debug: true
-  CXX_VER: 17
-  CONFIGURATION: 'Debug'
+pool:
+   name: 'Azure Pipelines'
+   vmImage: 'vs2017-win2016'
 
-jobs:
-- job: Build
-  strategy:
-      matrix:
-        win64:
-          imageName: 'vs2017-win2016'
-          architecture: 'x64'
-          generator_platform: 'x64'
-          vcpkg_triplet: 'x64-windows'
-        win32:
-          imageName: 'vs2017-win2016'
-          architecture: 'x86'
-          generator_platform: 'Win32'
-          vcpkg_triplet: 'x86-windows'
-
-  pool:
-    vmImage: $(imageName)
-  steps:
+steps:
   - script: |
-      choco install ninja
-    displayName: '[Windows] Install tools'
+     choco install ninja
   - script: |
-      @echo off
-      call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\vc\Auxiliary\build\vcvarsall.bat" $(architecture)
-      del "C:\ProgramData\chocolatey\bin\c++.exe"
-      del "C:\ProgramData\chocolatey\bin\g++.exe"
-      del "C:\ProgramData\chocolatey\bin\gcc.exe"
-      del "C:\Strawberry\c\bin\c++.exe"
-      del "C:\Strawberry\c\bin\g++.exe"
-      del "C:\Strawberry\c\bin\gcc.exe"
-      cmake -H. -B_build -GNinja -DCMAKE_CXX_STANDARD=$(CXX_VER) -DCMAKE_INSTALL_PREFIX=$(Build.ArtifactStagingDirectory) -DBUILD_SHARED_LIBS=ON
-    displayName: '[Windows] Run cmake'
-  - script: |
-      cmake --build _build --config $(CONFIGURATION) --target install
-    failOnStderr: true
-    displayName: 'Build project'
+     call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\vc\Auxiliary\build\vcvarsall.bat" x64
+     del "C:\ProgramData\chocolatey\bin\c++.exe"
+     del "C:\ProgramData\chocolatey\bin\g++.exe"
+     del "C:\ProgramData\chocolatey\bin\gcc.exe"
+     del "C:\Strawberry\c\bin\c++.exe"
+     del "C:\Strawberry\c\bin\g++.exe"
+     del "C:\Strawberry\c\bin\gcc.exe"
+     cmake -H. -B_build -GNinja -DCMAKE_CXX_STANDARD=17 -DCMAKE_INSTALL_PREFIX=C:\artifact -DBUILD_SHARED_LIBS=ON
+     cmake --build _build --config debug --target install
