@@ -40,12 +40,12 @@ jobs:
   - script: |
       @echo off
       call "$(vcvars_path)" $(architecture)
-      del "C:\ProgramData\chocolatey\bin\c++.exe"
-      del "C:\ProgramData\chocolatey\bin\g++.exe"
-      del "C:\ProgramData\chocolatey\bin\gcc.exe"
-      del "C:\Strawberry\c\bin\c++.exe"
-      del "C:\Strawberry\c\bin\g++.exe"
-      del "C:\Strawberry\c\bin\gcc.exe"
+      REM del "C:\ProgramData\chocolatey\bin\c++.exe"
+      REM del "C:\ProgramData\chocolatey\bin\g++.exe"
+      REM del "C:\ProgramData\chocolatey\bin\gcc.exe"
+      REM del "C:\Strawberry\c\bin\c++.exe"
+      REM del "C:\Strawberry\c\bin\g++.exe"
+      REM del "C:\Strawberry\c\bin\gcc.exe"
       cmake -H. -B_build -GNinja -DCMAKE_CXX_STANDARD=$(CXX_VER) -DCMAKE_INSTALL_PREFIX=$(Build.ArtifactStagingDirectory) -DBUILD_SHARED_LIBS=ON
     displayName: '[Windows] Run cmake'
   - script: |
