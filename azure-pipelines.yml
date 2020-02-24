@@ -1,6 +1,5 @@
 variables:
   system.debug: true
-  CXX_VER: 17
   CONFIGURATION: 'Debug'
 
 jobs:
@@ -46,7 +45,7 @@ jobs:
       del "C:\Strawberry\c\bin\c++.exe"
       del "C:\Strawberry\c\bin\g++.exe"
       del "C:\Strawberry\c\bin\gcc.exe"
-      cmake -H. -B_build -GNinja -DCMAKE_CXX_STANDARD=$(CXX_VER) -DCMAKE_INSTALL_PREFIX=$(Build.ArtifactStagingDirectory) -DBUILD_SHARED_LIBS=ON
+      cmake -H. -B_build -GNinja -DCMAKE_INSTALL_PREFIX=$(Build.ArtifactStagingDirectory) -DBUILD_SHARED_LIBS=ON
     displayName: '[Windows] Run cmake'
   - script: |
       @echo off
