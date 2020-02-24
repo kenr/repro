@@ -35,7 +35,7 @@ jobs:
     vmImage: $(imageName)
   steps:
   - script: |
-      choco install ninja llvm
+      choco install ninja llvm cmake
     displayName: '[Windows] Install tools'
   - script: |
       @echo off

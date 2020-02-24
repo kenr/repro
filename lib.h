@@ -13,6 +13,8 @@ extern "C" {
 #include <cstdbool>
 #endif
 
+void doit();
+
 #ifdef __cplusplus
 }
 #endif // __cplusplus
