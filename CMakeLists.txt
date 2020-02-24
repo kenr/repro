@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF) # For g++ this ensures -std=c++11 and not -std=gnu++11
 
-find_program(CLANG_TIDY_PATH NAMES clang-tidy-9 clang-tidy)
+find_program(CLANG_TIDY_PATH NAMES clang-tidy-9 clang-tidy HINTS "C:/Program Files/LLVM/bin")
 
 if(CLANG_TIDY_PATH)
     # Need to pass c++17 to clang-tidy as an extra argument from cmake to clang-tidy
