@@ -16,6 +16,8 @@ if(CLANG_TIDY_PATH)
     # Need to pass c++17 to clang-tidy as an extra argument from cmake to clang-tidy
     set(CMAKE_CXX_CLANG_TIDY  "${CLANG_TIDY_PATH};--extra-arg-before=-std=c++17")
     message(STATUS "clang-tidy linter found in directory ${CLANG_TIDY_PATH}")
+    exec_program(${CLANG_TIDY_PATH} ARGS --version OUTPUT_VARIABLE clang_tidy_version)
+    message(STATUS "clang-tidy version is ${clang_tidy_version}")
 else()
     message(STATUS "clang-tidy linter not found, linting will not be done.")
 endif()
