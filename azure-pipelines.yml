@@ -35,7 +35,7 @@ jobs:
     vmImage: $(imageName)
   steps:
   - script: |
-      choco install ninja
+      choco install ninja llvm
     displayName: '[Windows] Install tools'
   - script: |
       @echo off
