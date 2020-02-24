@@ -8,6 +8,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF) # For g++ this ensures -std=c++11 and not -std=gnu++11
 
+message(STATUS "CMake version is ${CMAKE_VERSION}")
+
 find_program(CLANG_TIDY_PATH NAMES clang-tidy-9 clang-tidy HINTS "C:/Program Files/LLVM/bin")
 
 if(CLANG_TIDY_PATH)
