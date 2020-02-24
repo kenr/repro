@@ -52,7 +52,6 @@ jobs:
       call "$(vcvars_path)" $(architecture)
       cmake --version
       ninja --version
-      clang-tidy --version
       cmake -B_build --config $(CONFIGURATION) --target install
     failOnStderr: false
     displayName: 'Build project'
