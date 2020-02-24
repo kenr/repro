@@ -12,21 +12,25 @@ jobs:
           architecture: 'x64'
           generator_platform: 'x64'
           vcpkg_triplet: 'x64-windows'
+          vcvars_path: "C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/vc/Auxiliary/build/vcvarsall.bat"
         win32_2017:
           imageName: 'vs2017-win2016'
           architecture: 'x86'
           generator_platform: 'Win32'
           vcpkg_triplet: 'x86-windows'
+          vcvars_path: "C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/vc/Auxiliary/build/vcvarsall.bat"
         win64_2019:
           imageName: 'windows-latest'
           architecture: 'x64'
           generator_platform: 'x64'
           vcpkg_triplet: 'x64-windows'
+          vcvars_path: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/vc/Auxiliary/build/vcvarsall.bat"
         win32_2019:
           imageName: 'windows-latest'
           architecture: 'x86'
           generator_platform: 'Win32'
           vcpkg_triplet: 'x86-windows'
+          vcvars_path: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/vc/Auxiliary/build/vcvarsall.bat"
   pool:
     vmImage: $(imageName)
   steps:
@@ -35,7 +39,7 @@ jobs:
     displayName: '[Windows] Install tools'
   - script: |
       @echo off
-      call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\vc\Auxiliary\build\vcvarsall.bat" $(architecture)
+      call $(vcvars_path) $(architecture)
       del "C:\ProgramData\chocolatey\bin\c++.exe"
       del "C:\ProgramData\chocolatey\bin\g++.exe"
       del "C:\ProgramData\chocolatey\bin\gcc.exe"
@@ -46,7 +50,7 @@ jobs:
     displayName: '[Windows] Run cmake'
   - script: |
       @echo off
-      call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\vc\Auxiliary\build\vcvarsall.bat" $(architecture)
+      call $(vcvars_path) $(architecture)
       cmake --build _build --config $(CONFIGURATION) --target install
     failOnStderr: true
     displayName: 'Build project'
