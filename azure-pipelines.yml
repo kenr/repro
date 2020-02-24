@@ -52,5 +52,5 @@ jobs:
       call "$(vcvars_path)" $(architecture)
       cmake --version
       cmake --build _build --config $(CONFIGURATION) --target install
-    failOnStderr: true
+    failOnStderr: false
     displayName: 'Build project'
