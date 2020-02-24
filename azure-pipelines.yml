@@ -39,7 +39,7 @@ jobs:
     displayName: '[Windows] Install tools'
   - script: |
       @echo off
-      call $(vcvars_path) $(architecture)
+      call "$(vcvars_path)" $(architecture)
       del "C:\ProgramData\chocolatey\bin\c++.exe"
       del "C:\ProgramData\chocolatey\bin\g++.exe"
       del "C:\ProgramData\chocolatey\bin\gcc.exe"
@@ -50,7 +50,7 @@ jobs:
     displayName: '[Windows] Run cmake'
   - script: |
       @echo off
-      call $(vcvars_path) $(architecture)
+      call "$(vcvars_path)" $(architecture)
       cmake --build _build --config $(CONFIGURATION) --target install
     failOnStderr: true
     displayName: 'Build project'
