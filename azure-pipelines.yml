@@ -51,7 +51,7 @@ jobs:
       del "C:\Strawberry\c\bin\c++.exe"
       del "C:\Strawberry\c\bin\g++.exe"
       del "C:\Strawberry\c\bin\gcc.exe"
-      cmake -H. -B_build -GNinja -DCMAKE_INSTALL_PREFIX=$(Build.ArtifactStagingDirectory) -DBUILD_SHARED_LIBS=ON -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
+      cmake -H. -B_build -GNinja -DCMAKE_INSTALL_PREFIX=$(Build.ArtifactStagingDirectory) -DBUILD_SHARED_LIBS=ON -DCMAKE_VERBOSE_MAKEFILE=ON
     displayName: '[Windows] Run cmake'
   - task: PublishBuildArtifacts@1
     inputs:
@@ -62,6 +62,7 @@ jobs:
       call "$(vcvars_path)" $(architecture)
       cmake --version
       ninja --version
-      cmake --build _build --config $(CONFIGURATION) --target install
+      REM cmake --build _build --config $(CONFIGURATION) --target install --verbose
+      cd _build && ninja
     failOnStderr: false
     displayName: 'Build project'
