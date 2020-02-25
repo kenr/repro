@@ -37,6 +37,7 @@ jobs:
       choco install ninja llvm cmake
     displayName: '[Windows] Install tools'
   - bash: |
+      which cmake
       sed -i 's/\-std\:/\/std\:/' "C:\Program Files\CMake\share\cmake-3.16\Modules\Compiler\MSVC-CXX.cmake"
     displayName: 'Modify cmake MSVC template to circumvent clang-tidy MSVC argument issue'
   - script: |
