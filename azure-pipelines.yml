@@ -39,7 +39,7 @@ jobs:
   - bash: |
       which cmake
       dir "C:/Program Files/CMake"
-      cd /d C:/
+      cd /c
       sed -i 's/\-std\:/\/std\:/' "C:/Program Files/CMake/share/cmake-3.16/Modules/Compiler/MSVC-CXX.cmake"
     displayName: 'Modify cmake MSVC template to circumvent clang-tidy MSVC argument issue'
   - script: |
