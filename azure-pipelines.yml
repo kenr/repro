@@ -62,7 +62,7 @@ jobs:
       call "$(vcvars_path)" $(architecture)
       cmake --version
       ninja --version
-      REM cmake --build _build --config $(CONFIGURATION) --target install --verbose
-      cd _build && ninja -v -d explain -j 1
+      cmake --build _build --config $(CONFIGURATION) --target install --verbose
+      REM cd _build && ninja -v -d explain -j 1
     failOnStderr: false
     displayName: 'Build project'
