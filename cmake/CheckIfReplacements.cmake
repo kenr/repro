@@ -1,0 +1,15 @@
+function(checkIfReplacements filename)
+    if(NOT filename)
+        message(ERROR "No filename provided for replacement file")
+    endif()
+
+    file(READ ${filename} REPLACEMENTS)
+    string(FIND "${REPLACEMENTS}" "<replacement " FOUND_REPLACEMENTS)
+    if (FOUND_REPLACEMENTS)
+        message(ERROR "Replacements found")
+    else()
+        message(STATUS "No replacements found")
+    endif()
+endfunction()
+
+checkIfReplacements(${REPLACEMENTS_FILE})

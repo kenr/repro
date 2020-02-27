@@ -28,9 +28,11 @@ function(clangformat_setup)
       ${CLANGFORMAT_EXECUTABLE}
       --style=file
       --output-replacements-xml
-      ${clangformat_sources}
+      ${clangformat_sources} > output-replacements.xml
+    VERBATIM
     COMMENT
-      "Formating with ${CLANGFORMAT_EXECUTABLE} ..."
+      "Testing with ${CLANGFORMAT_EXECUTABLE} ..."
+    COMMAND ${CMAKE_COMMAND} -DREPLACEMENTS_FILE=${CMAKE_BINARY_DIR}/output-replacements.xml -P "${CMAKE_SOURCE_DIR}/cmake/CheckIfReplacements.cmake"
   )
 
   if(TARGET clangformat)
