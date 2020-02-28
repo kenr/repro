@@ -44,7 +44,7 @@ target_include_directories(${TEST_LIB} PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-target_clangformat_setup(${TEST_LIB})
+target_clangformat_check_setup(${TEST_LIB})
 
 install(TARGETS ${TEST_LIB}
     RUNTIME DESTINATION bin
