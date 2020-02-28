@@ -5,10 +5,11 @@ function(checkIfReplacements filename)
 
     file(READ ${filename} REPLACEMENTS)
     string(FIND "${REPLACEMENTS}" "<replacement " FOUND_REPLACEMENTS)
-    if (FOUND_REPLACEMENTS)
-        message(FATAL_ERROR "Replacements found")
-    else()
+
+    if (FOUND_REPLACEMENTS EQUAL -1)
         message(STATUS "No replacements found")
+    else()
+        message(FATAL_ERROR "Replacements found")        
     endif()
 endfunction()
 
