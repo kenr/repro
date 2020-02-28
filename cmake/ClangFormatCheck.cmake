@@ -30,8 +30,6 @@ function(clangformat_check_setup)
       --output-replacements-xml
       ${clangformat_sources} > output-replacements.xml
     VERBATIM
-    COMMENT
-      "Testing with ${CLANGFORMAT_EXECUTABLE} ..."
     COMMAND ${CMAKE_COMMAND} -DREPLACEMENTS_FILE=${CMAKE_BINARY_DIR}/output-replacements.xml -P "${CMAKE_SOURCE_DIR}/cmake/CheckIfReplacements.cmake"
   )
 
